@@ -16,3 +16,7 @@ delete_author:
     path: '/authors/{id}'
     controller: App\Controller\AuthorController::deleteAuthor
     methods: ['GET']
+delete_book:
+    path: '/books/{id}/delete/{authorId}'
+    controller: App\Controller\BookController::deleteBook
+    methods: ['GET', 'POST']
