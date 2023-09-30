@@ -11,23 +11,15 @@ class AuthorController extends AbstractController
 {
     public function __construct(private RequestStack $requestStack, )
     {
-        // Accessing the session in the constructor is *NOT* recommended, since
-        // it might not be accessible yet or lead to unwanted side-effects
-        // $this->session = $requestStack->getSession();
     }
     public function listAuthors(Request $request)
     {
-        print_r("SDSAA");
         // Get pagination parameters from the request (e.g., page and limit).
         $page = $request->query->getInt('page', 1);
         $limit = $request->query->getInt('limit', 10);
 
         // Make an API request to fetch paginated authors.
         $authors = $this->fetchPaginatedAuthors($page, $limit);
-        echo "<pre>";
-        print_r($authors);
-        echo "</pre>";
-
         // Render the template with authors and pagination data.
         $pagination = [
             'total_results' => $authors['total_results'],

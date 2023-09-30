@@ -2,7 +2,8 @@
 
 namespace App\Controller;
 
-use App\Form\LoginFormType; // Include the LoginFormType class at the top
+use App\Form\LoginFormType;
+use App\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -10,15 +11,11 @@ use Symfony\Component\Security\Core\Security;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpFoundation\RequestStack;
 
-
 class SecurityController extends AbstractController
 {
     public function __construct(
         private RequestStack $requestStack,
     ){
-        // Accessing the session in the constructor is *NOT* recommended, since
-        // it might not be accessible yet or lead to unwanted side-effects
-        // $this->session = $requestStack->getSession();
     }
     /**
      * @Route("/login", name="app_login")
@@ -62,6 +59,13 @@ class SecurityController extends AbstractController
                 $session = $this->requestStack->getSession();
                 $session->set('access_token', $data['token_key']);
 
+                // Create a user object using the retrieved data
+                //since we are not using symfony user via ORM
+                //use session instead
+                $session->set('id',$data['id']);
+                $session->set('email',$data['user']['email']);
+                $session->set('first_name',$data['user']['first_name']);
+                $session->set('last_name',$data['user']['last_name']);
                 // Redirect to the homepage or any other route after successful login.
                 return $this->redirectToRoute('list_authors');
             } else {
@@ -80,6 +84,9 @@ class SecurityController extends AbstractController
      */
     public function logout()
     {
-        // This controller is empty because Symfony handles the logout process automatically.
+        $session = $this->requestStack->getSession();
+        $session->invalidate();
+        // Redirect to the home page
+        return $this->redirectToRoute('homepage');
     }
 }

@@ -11,6 +11,20 @@
         {% endblock %}
     </head>
     <body>
+        <header>
+        <nav>
+            <ul>
+                <li><a href="{{ path('homepage') }}">Home</a></li>
+                {% if app.session.get('access_token') %}
+                    <li><a href="{{ path('app_logout') }}">Logout</a></li>
+                    <li><a href="{{ path('add_book') }}">Add Book</a></li>
+                    <li><a href="{{ path('list_authors') }}">View Authors</a></li>
+                {% else %}
+                    <li><a href="{{ path('app_login') }}">Login</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+    </header>
         {% block body %}{% endblock %}
     </body>
 </html>

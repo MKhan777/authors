@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Welcome to the Homepage</h1>
+
+     {% if app.session.get('access_token') is not null %}
+        <h2>User Information</h2>
+        <ul>
+            <li><strong>ID:</strong> {{ app.session.get('id') }}</li>
+            <li><strong>Email:</strong> {{ app.session.get('email') }}</li>
+            <li><strong>First Name:</strong> {{ app.session.get('first_name') }}</li>
+            <li><strong>Last Name:</strong> {{ app.session.get('last_name') }}</li>
+        </ul>
+    {% else %}
+        <p>You are not logged in.</p>
+    {% endif %}
+{% endblock %}

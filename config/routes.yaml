@@ -1,3 +1,6 @@
+homepage:
+    path: /
+    controller: App\Controller\HomeController::index
 app_login:
     path: /login
     controller: App\Controller\SecurityController::login
@@ -20,3 +23,8 @@ delete_book:
     path: '/books/{id}/delete/{authorId}'
     controller: App\Controller\BookController::deleteBook
     methods: ['GET', 'POST']
+add_book:
+    path: /books/add
+    controller: App\Controller\BookController::createBook
+    methods: ['GET', 'POST']
+

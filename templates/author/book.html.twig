@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Add a New Book</h1>
+
+    {{ form_start(form) }}
+
+   <div class="form-group">
+        {{ form_label(form.author, 'Author') }}
+        {{ form_widget(form.author, { 'attr': {'class': 'form-control'} }) }}
+    </div>
+
+    {{ form_row(form.title) }}
+    {{ form_widget(form) }}
+
+    <button type="submit">Add Book</button>
+    {{ form_end(form) }}
+{% endblock %}
