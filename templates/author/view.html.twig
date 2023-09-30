@@ -1,0 +1,69 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Author Details</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Birthday</th>
+                <th>Gender</th>
+                <th>Place of Birth</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{ author.id }}</td>
+                <td>{{ author.first_name }}</td>
+                <td>{{ author.last_name }}</td>
+                <td>{{ author.birthday|date('Y-m-d') }}</td>
+                <td>{{ author.gender }}</td>
+                <td>{{ author.place_of_birth }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>Books by {{ author.first_name }} {{ author.last_name }}</h2>
+    {% if author.books is empty %}
+        <p>No books found for this author.</p>
+        {% if isAuthorDeletable %}
+            <form method="GET" action="{{ path('delete_author', {'id': author.id}) }}" onsubmit="return confirm('Are you sure you want to delete this author?');">
+                <input type="hidden" name="_method" value="GET">
+                <button type="submit">Delete Author</button>
+             </form>
+
+        {% endif %}
+    {% else %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Title</th>
+                <th>Release Date</th>
+                <th>Description</th>
+                <th>ISBN</th>
+                <th>Format</th>
+                <th>Number of Pages</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for book in author.books %}
+                <tr>
+                    <td>{{ book.id }}</td>
+                    <td>{{ book.title }}</td>
+                    <td>{{ book.release_date|date('Y-m-d') }}</td>
+                    <td>{{ book.description }}</td>
+                    <td>{{ book.isbn }}</td>
+                    <td>{{ book.format }}</td>
+                    <td>{{ book.number_of_pages }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+
+    <a href="{{ path('list_authors') }}">Back to Authors List</a>
+{% endblock %}
